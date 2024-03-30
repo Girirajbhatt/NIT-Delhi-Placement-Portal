@@ -29,7 +29,7 @@ const adminSchema = new Schema({
         type: String,
         required: [true, "Designation field should not be empty"] ,
     },
-    image: {// coludinary url
+    image: {// cloudinary url
         type: String,
     },
     refreshTokens: {

@@ -6,7 +6,7 @@ const jobSchema = new Schema({
         ref : "Company"
     },
     passOutBatch : {
-        type: Number, 
+        type: [Number], 
         required: [true, "Pass-out batch field should not be empty"],
         index : true ,
     },
@@ -18,7 +18,7 @@ const jobSchema = new Schema({
     },
     description: {
         type: String, 
-        required: true 
+        required: true, 
     },
     duration : {
         type: String, 
@@ -28,7 +28,7 @@ const jobSchema = new Schema({
     type : {
         type: String, 
         required: [true, "Job type must be selected"] ,
-        enum : ["Full Time","Part Time","Contract","Intern","Seasonal","Remote"]
+        enum : ["Full Time","Part Time","Contract"]
     },
     requirements: { 
 
@@ -48,7 +48,7 @@ const jobSchema = new Schema({
     deadline: { 
         type: Date, 
         required: true,
-        default : Date.now(), 
+        // default : Date.now(), 
     },
 },{ timestamps : true });
 

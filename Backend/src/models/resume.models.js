@@ -1,5 +1,9 @@
 import mongoose, {Schema} from "mongoose";
 
+const degreeBranches = {
+
+}
+
 const resumeSchema = new Schema({
     studentId: { // Roll number
         type: Schema.Types.ObjectId,
@@ -22,11 +26,11 @@ const resumeSchema = new Schema({
         required: [true, "Pass-out batch should not be empty"] ,
         trim : true,
         index : true,
-        min : [2022, "Pass-out batch should be greater than 1990"],
-        max : [2026,"Pass-out batch should be less than 2100"],
+        min : [1990, "Pass-out batch should be greater than 1990"],
+        max : [2030,"Pass-out batch should be less than 2030"],
     },
-    branch : {
-        type : String,
+    branch : { // change
+        type : [degreeBranches],
         enum : ["CSE","ECE","ME","CE","EE"],
         required : [true, "Branch field should not be empty"],
     },
@@ -47,7 +51,7 @@ const resumeSchema = new Schema({
     },
     collegeEmail : {
         type : Schema.Types.ObjectId,
-        ref : "Student"
+        ref : "Student",
     },
     cgpa : {
         type: Number, 
@@ -62,14 +66,13 @@ const resumeSchema = new Schema({
     },
     residentialAddress : {
         type: String, 
-        required: [true, "Address field should not be empty"] ,
+        // required: [true, "Address field should not be empty"] ,
         lowercase : true,
         trim : true,
     },
     postCode : {
         type: Number, 
         required: [true, "Postal Code field should not be empty"] ,
-        unique: [true, "College Email already exists"],
     },
     state : {
         type: String, 
@@ -101,4 +104,4 @@ const resumeSchema = new Schema({
   });
   
 
-export const Resume = mongoose.model("Student",resumeSchema);
+export const Resume = mongoose.model("Resume",resumeSchema);

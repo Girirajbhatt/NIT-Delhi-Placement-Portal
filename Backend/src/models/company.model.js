@@ -11,6 +11,7 @@ const companySchema = new Schema({
     siteUrl : {
         type: String, 
         required: [true, "Site URL is required"] ,
+        unique : [true, "Site already exists"],
         trim : true,
     },
     type : {
@@ -20,10 +21,12 @@ const companySchema = new Schema({
     contactNo: {
         type: String, 
         required: [true, "Contact Number field should not be empty"],
+        unique : true,
     },
     logo: {
         type: String, 
-        required: true 
+        required: true ,
+        unique : true,
     },
     address: { 
         type: String, 
