@@ -44,7 +44,6 @@ const companySchema = new Schema({
         unique: [true, "Company already exists"],
         lowercase : true,
         trim : true,
-        index : true,
     },
 }, { timestamps : true });
 

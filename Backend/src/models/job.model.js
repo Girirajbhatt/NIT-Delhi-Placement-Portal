@@ -1,4 +1,5 @@
 import mongoose, {Schema} from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const jobSchema = new Schema({
     companyId: { 
@@ -6,7 +7,7 @@ const jobSchema = new Schema({
         ref : "Company"
     },
     passOutBatch : {
-        type: [Number], 
+        type: String, 
         required: [true, "Pass-out batch field should not be empty"],
         index : true ,
     },
@@ -51,5 +52,7 @@ const jobSchema = new Schema({
         // default : Date.now(), 
     },
 },{ timestamps : true });
+
+jobSchema.plugin(mongooseAggregatePaginate);
 
 export const Job = mongoose.model("Job",jobSchema);
