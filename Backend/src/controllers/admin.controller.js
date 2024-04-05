@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/ApiError.js"
 import { Faq } from "../models/faq.model.js";
 import { Student } from "../models/student.model.js";
+import { Company } from "../models/company.model.js";
 import { Admin } from "../models/admin.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import {ApiResponse} from "../utils/ApiResponse.js";
@@ -57,8 +58,6 @@ const registerStudent = asyncHandler( async (req, res) => {
 } )
 
 
-
-
 const createFAQ = asyncHandler(async (req,res) => {
         const {question,answer} = req.body;
         if([question,answer].some((field) => {field?.trim()  === ""})){
@@ -80,7 +79,55 @@ const createFAQ = asyncHandler(async (req,res) => {
         )
 });
 
+const addCompany = async (req, res) => {
+    const { name, siteUrl, type, contactNo, logo, address } = req.body;
+
+    if ([name, siteUrl, type, contactNo, logo, address].some((field) => field?.trim() === "")) {
+        throw new ApiError(400, "All fields are required" );
+    }
+
+    const existedCompany = await Company.findOne({ name });
+
+    if (existedCompany) {
+        throw new ApiError(409, "Company with entered name already exists" );
+    }
+
+    const logoLocalPath = req.files?.logo[0]?.path;
+
+    if (!logoLocalPath) {
+        throw new ApiError(400, "Logo file is required" );
+    }
+
+    const logoUrl = await uploadOnCloudinary(logoLocalPath);
+
+    if (!logoUrl) {
+        throw new ApiError(400, "Logo file is required" );
+    }
+
+    const company = await Company.create({
+        name,
+        siteUrl,
+        type,
+        contactNo,
+        logo: logoUrl.url,
+        address,
+    });
+
+    const createdCompany = await Company.findById(company._id
+    );
+
+    if (!createdCompany) {
+        throw new ApiError(500, "Something went wrong while creating company" );
+    }
+
+    return res.status(201).json(
+        new ApiResponse(201, createdCompany, "Company added successfully" )
+    );
+    
+};
+
 export {
     createFAQ,
     registerStudent,
+    addCompany,
 }

@@ -5,6 +5,7 @@ import {ApiError} from "../utils/ApiError.js"
 import { Student } from "../models/student.model.js";
 import { Admin } from "../models/admin.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { Company } from "../models/company.model.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
@@ -181,6 +182,17 @@ const getCurrentStudent = asyncHandler(async(req, res) => {
         "Student fetched successfully"
     ))
 })
+
+const getCompanyDetails = asyncHandler(async(req, res) => {
+    const companies = await Company.find({});
+    return res
+    .status(200)
+    .json(new ApiResponse(
+        200,
+        companies,
+        "Company details fetched successfully"
+    ))
+});
 
 
 
